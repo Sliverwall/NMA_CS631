@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'website',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# GraphViz settings
+GRAPH_MODELS = {
+    'app_labels': ["website"],
+    'all_applications': False,
+    'group_models': True,
+}
