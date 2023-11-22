@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Patient,Doctor,Nurse,MedicalHistory, Illness,Request,Bed,Room,InPatient
+from .models import Staff, Patient,Doctor,Nurse,MedicalHistory, Illness,Request,Bed,Room,InPatient,Appointment
 
 
-
+admin.site.register(Staff)
 
 admin.site.register(Patient)
 
@@ -16,6 +16,7 @@ admin.site.register(MedicalHistory)
 
 admin.site.register(Request)
 
+admin.site.register(Appointment)
 
 admin.site.register(Bed)
 

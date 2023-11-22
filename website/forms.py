@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Patient, Doctor, realSpecialty, Nurse, Room, Bed, InPatient, Request
+from .models import Patient, Doctor, realSpecialty, Nurse, Room, Bed, InPatient, Request, Appointment
 
 class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
@@ -94,7 +94,6 @@ class AddDoctorForm(forms.ModelForm):
 		exclude = ("user",)
 
 
-
 # Create Add Request Form
 class AddRequestForm(forms.ModelForm):
     
@@ -129,9 +128,16 @@ class AddRequestForm(forms.ModelForm):
         fields = ['patient', 'doctor', 'treatment_type', 'description','request_date']
 
 
-
-
-
+# Appointment Form
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['patient', 'doctor', 'scheduled_date', 'request']
+        
+# Query Appointment Table Form      
+class AppointmentSearchForm(forms.Form):
+    doctor = forms.ModelChoiceField(queryset=Doctor.objects.all(), required=False, empty_label="All Doctors")
+    appointment_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
 
 # Create Add Room Form
 class RoomForm(forms.ModelForm):

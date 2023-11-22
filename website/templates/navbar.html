@@ -21,7 +21,7 @@
             </li>
           
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'patient_management' %}">Medical Staff Management</a>
+            <a class="nav-link" href="{% url 'medical_staff_management' %}">Medical Staff Management</a>
             </li>
             
             {% endif %}
@@ -34,14 +34,11 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'doctor_table' %}">Doctor Records</a>
+              <a class="nav-link" href="{% url 'request_table' %}">Request Records</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'patient_table' %}">Medical History Records</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'request_table' %}">Request Records</a>
+              <a class="nav-link" href="{% url 'search_appointments' %}">Search Appointment Records</a>
             </li>
 
           {% endif %}
@@ -55,24 +52,16 @@
             </li>
           {% endif %}
 
-          {% if "/doctor_table/" in request.path%}
+
+
+          {% if "/request_table/" in request.path%}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'patient_management' %}">Patient Management</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'add_doctor' %}">Add Doctor Record</a>
+              <a class="nav-link" href="{% url 'add_request' %}">Add Request Record</a>
             </li>
           {% endif %}
-
-          {% if "/request_table/" in request.path%}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'patient_management' %}">Patient Management</a>
-            </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_request' %}">Add Request Record</a>
-          </li>
-        {% endif %}
-
           <!--Showcase in-patient_management options-->
           {% if request.path == "/in_patient_management/"%} 
 
@@ -119,6 +108,23 @@
 
           <!--Showcase medical_staff_management options-->
           {% if request.path == "/medical_staff_management/"%} 
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'doctor_table' %}">Doctor Records</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'appointment_table' %}">Appointment Records</a>
+          </li>
+
+          {% endif %}
+
+
+          {% if "/appointment_table/" in request.path%}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'medical_staff_management' %}">Medical Staff Management</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'add_appointment' %}">Add Appointment Record</a>
+            </li>
           {% endif %}
 
 
@@ -131,6 +137,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register' %}">Register</a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'home' %}">Login</a>
           </li>        

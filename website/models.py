@@ -1,8 +1,15 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
-from datetime import date
+from datetime import date, datetime
+from django.utils import timezone
 
+# Medical Staff Management Models
 
+class Staff(models.Model):
+    employeeID = models.AutoField(primary_key=True)
+    job_title = models.CharField(max_length =100)
+    def __str__(self):
+        return(f"{self.employeeID} {self.job_title}")
 
 
 # Patient Management Models
@@ -21,7 +28,7 @@ class Patient(models.Model):
 	zipcode =  models.CharField(max_length=20)
 
 	def __str__(self):
-		return(f"{self.first_name} {self.last_name}")
+		return(f"{self.first_name} {self.last_name} ({self.SSN})")
 	
 
 # Create list of applicable doctor specialtys.
@@ -34,23 +41,25 @@ realSpecialty = [
 ]
 
 class Doctor(models.Model):
-	created_at = models.DateTimeField(auto_now_add=True)
-	first_name = models.CharField(max_length=50)
-	last_name =  models.CharField(max_length=50)
-	DOB = models.DateField()
-	specialty = models.CharField(max_length=100, choices=realSpecialty)
-
-	def __str__(self):
-		return(f"Dr.{self.first_name} {self.last_name}/ Specialty: {self.specialty} / ID: {self.id} ")
+    #employeeID = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    first_name = models.CharField(max_length=50)
+    last_name =  models.CharField(max_length=50)
+    DOB = models.DateField()
+    specialty = models.CharField(max_length=100, choices=realSpecialty)
+    employeeID = models.ForeignKey(Staff, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    def __str__(self):
+        return(f"Dr.{self.first_name} {self.last_name}/ Specialty: {self.specialty} / ID: {self.id} ")
 
 class Nurse(models.Model):
-	created_at = models.DateTimeField(auto_now_add=True)
-	first_name = models.CharField(max_length=50)
-	last_name =  models.CharField(max_length=50)
-	DOB = models.DateField()
-
-	def __str__(self):
-		return(f"Nurse {self.first_name} {self.last_name} / ID: {self.id} ")
+    #employeeID = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    first_name = models.CharField(max_length=50)
+    last_name =  models.CharField(max_length=50)
+    DOB = models.DateField()
+    employeeID = models.ForeignKey(Staff, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    def __str__(self):
+        return(f"Nurse {self.first_name} {self.last_name} / ID: {self.id} ")
           
 
 class Illness(models.Model):
@@ -58,7 +67,7 @@ class Illness(models.Model):
 	common_name = models.CharField(max_length=100)
 
 	def __str__(self):
-		return(f"{self.id}")
+		return(f"{self.common_name}: {self.id}")
       
 
 class MedicalHistory(models.Model):
@@ -79,7 +88,7 @@ class Request(models.Model):
                                                               ("Surgery", "Surgery")], default='General')
     request_date = models.DateField()
     def __str__(self):
-        return(f"{self.id}")
+        return(f"{self.patient} to {self.description}, requestID ({self.id})")
     
     def save(self, *args, **kwargs):
         today = date.today()
@@ -88,6 +97,16 @@ class Request(models.Model):
 
         # Save the InPatient object
         super(Request, self).save(*args, **kwargs)
+    
+
+class Appointment(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    scheduled_date = models.DateTimeField(default=timezone.now)
+    request = models.OneToOneField(Request, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"Appointment with Dr. {self.doctor} on {self.scheduled_date}"
 
 
 
@@ -149,6 +168,3 @@ class InPatient(models.Model):
 
         # Save the InPatient object
         super(InPatient, self).save(*args, **kwargs)
-
-
-# Medical Staff Management Models
