@@ -129,7 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # GraphViz settings
 GRAPH_MODELS = {
-    'app_labels': ["website"],
-    'all_applications': False,
-    'group_models': True,
+  'all_applications': True,
+  'group_models': True,
 }

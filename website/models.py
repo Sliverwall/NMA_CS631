@@ -8,6 +8,7 @@ from django.utils import timezone
 class Staff(models.Model):
     employeeID = models.AutoField(primary_key=True)
     job_title = models.CharField(max_length =100)
+    salary = models.IntegerField(default=50000)
     def __str__(self):
         return(f"{self.employeeID} {self.job_title}")
 

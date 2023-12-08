@@ -195,7 +195,8 @@ def search_appointments(request):
             appointments = appointments.filter(doctor=doctor)
 
         if appointment_date:
-            appointments = appointments.filter(scheduled_date=appointment_date)
+            # Filter appointments for a specific day
+            appointments = appointments.filter(appointment_date=appointment_date)
 
     context = {'form': form, 'appointments': appointments}
     return render(request, 'patient_managements/appointment_search.html', context)
